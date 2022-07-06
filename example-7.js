@@ -157,20 +157,20 @@ console.log("---- EXAMPLE 7 part 6 --- ", companies);
 // "id" de "user" que permite hacer un PATCH (como con una llamada HTTP) en este
 // "user".
 function updateUser(companyId, userId) {
-  const company = companies.find(company => company.id === companyId);
-  const user = company.users.find(user => user.id === userId);
-  if (user) {
-    const userCloned = { ...user };
-    delete userCloned.id;
-    delete userCloned.firstName;
-    delete userCloned.lastName;
-    var url =
-      "https://reqbin.com/echo/patch/json?patch&companyId=" +
-      companyId +
-      "&userId=" +
-      userId;
+  return new Promise((resolve, reject) => {
+    const company = companies.find(company => company.id === companyId);
+    const user = company.users.find(user => user.id === userId);
+    if (user) {
+      const userCloned = { ...user };
+      delete userCloned.id;
+      delete userCloned.firstName;
+      delete userCloned.lastName;
+      var url =
+        "https://reqbin.com/echo/patch/json?patch&companyId=" +
+        companyId +
+        "&userId=" +
+        userId;
 
-    return new Promise((resolve, reject) => {
       var xhr = new XMLHttpRequest();
       xhr.open("PATCH", url);
       xhr.setRequestHeader("Accept", "application/json");
@@ -192,8 +192,8 @@ function updateUser(companyId, userId) {
       };
       var data = JSON.stringify(userCloned);
       xhr.send(data);
-    });
-  }
+    }
+  });
 }
 
 updateUser(0, 1)
@@ -268,12 +268,11 @@ function transferUser(companyIdFrom, companyIdTo, userId) {
       companyFrom.usersLength = companyFrom.users.length;
       companyTo.users.push(user);
       companyTo.usersLength = companyTo.users.length;
-
     }
   }
 }
 
-transferUser(7,6,2)
+transferUser(7, 6, 2);
 console.log("---- EXAMPLE 7 part 9 --- ", companies);
 // -----------------------------------------------------------------------------
 // INSTRUCTIONS IN ENGLISH
